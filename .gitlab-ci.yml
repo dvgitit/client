@@ -37,6 +37,7 @@ client_patch:
   script:
     - source /home/omnibus/load-omnibus-toolchain.sh
     - cd chef/omnibus
+    - bundle update --patch omnibus omnibus-software
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir ${CI_PROJECT_DIR}/data
@@ -57,6 +58,7 @@ client-package:macos-10.14:
   script:
     - source /Users/omnibus/load-omnibus-toolchain.sh
     - cd chef/omnibus
+    - bundle update --patch omnibus omnibus-software
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - sudo rm -rf /var/cache/omnibus/pkg/*
     - sudo bundle exec omnibus build cinc --override append_timestamp:false
@@ -76,6 +78,7 @@ client-package:windows-2012r2:
     - $ErrorActionPreference = "Stop"
     - C:\omnibus\load-omnibus-toolchain.ps1
     - cd chef\omnibus
+    - bundle update --patch omnibus omnibus-software
     - bundle install --without development --path ${CI_PROJECT_DIR}/bundle/vendor
     - bundle exec omnibus build cinc --override append_timestamp:false
     - mkdir.exe -p ${CI_PROJECT_DIR}/data/windows/2012r2
