@@ -17,13 +17,7 @@ client_patch:
   tags:
     - osuosl
   script:
-    - echo "Cloning from $ORIGIN"
-    - git clone --depth=1 -b $REF $ORIGIN
-    - cp -R cinc/* chef/
-    - mkdir -p ${CI_PROJECT_DIR}/{cache,cache/git_cache}
-    - echo "cache_dir '${CI_PROJECT_DIR}/cache'" >> chef/omnibus/omnibus.rb
-    - echo "git_cache_dir '${CI_PROJECT_DIR}/cache/git_cache'" >> chef/omnibus/omnibus.rb
-    - sed -i -e 's/^use_git_caching false/use_git_caching true/g' chef/omnibus/omnibus.rb
+    - bash prepare.sh
   artifacts:
     expire_in: 1d
     paths:
