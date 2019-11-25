@@ -1,3 +1,4 @@
 /cache/*
 /chef*
 /omnibus-software*
+inspec.lock

@@ -197,6 +197,8 @@ client-package:opensuse-15:
     - chef-client --version
     - chef-solo -l info
     - /opt/cinc/embedded/bin/cinc-zero --version
+    - chef-solo test/test-cookbook/recipes/default.rb
+    - cinc-auditor exec test/test-baseline
 
 .client-test-windows:
   tags:

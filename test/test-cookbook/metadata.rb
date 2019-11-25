@@ -1,0 +1,8 @@
+name 'test-cookbook'
+maintainer 'Cinc Project'
+maintainer_email 'maintainers@cinc.sh'
+license 'Apache-2.0'
+description 'Installs/Configures test-cookbook'
+long_description 'Installs/Configures test-cookbook'
+version '0.1.0'
+chef_version '>= 13.0'
