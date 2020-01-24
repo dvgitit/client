@@ -1,7 +1,7 @@
-From 99726e468e5c1ba2456601b901cfebdc084835e3 Mon Sep 17 00:00:00 2001
+From b93b092d6e7f27c9410d60f07c3576b6a74ff75f Mon Sep 17 00:00:00 2001
 From: Lance Albertson <lance@osuosl.org>
 Date: Sat, 5 Oct 2019 13:00:14 -0700
-Subject: [PATCH] Cinc omnibus patches
+Subject: [PATCH 2/4] Cinc omnibus patches
 
 This pulls in changes that were originally in the client repository. The idea is
 that we can easily rebase the changes here from upstream and merge any future

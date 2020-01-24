@@ -1,0 +1,37 @@
+From b63427cc2b5c7c4a9263c187ce9f5498055cdd84 Mon Sep 17 00:00:00 2001
+From: Marc Chamberland <chamberland.marc@gmail.com>
+Date: Thu, 23 Jan 2020 21:09:01 -0500
+Subject: [PATCH 4/4] constants moved into chef-config
+
+---
+ chef-config/lib/chef-config/dist.rb | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/chef-config/lib/chef-config/dist.rb b/chef-config/lib/chef-config/dist.rb
+index 6099bf6c1..f8969eb6d 100644
+--- a/chef-config/lib/chef-config/dist.rb
++++ b/chef-config/lib/chef-config/dist.rb
+@@ -4,16 +4,16 @@ module ChefConfig
+     EXEC = "cinc".freeze
+ 
+     # The client's alias (chef-client)
+-    CLIENT = "chef-client".freeze
++    CLIENT = "cinc-client".freeze
+ 
+     # A short name for the product
+-    SHORT = "chef".freeze
++    SHORT = "cinc".freeze
+ 
+     # The suffix for Chef's /etc/chef, /var/chef and C:\\Chef directories
+     # "cinc" => /etc/cinc, /var/cinc, C:\\cinc
+-    DIR_SUFFIX = "chef".freeze
++    DIR_SUFFIX = "cinc".freeze
+ 
+     # The user's configuration directory
+-    USER_CONF_DIR = ".chef".freeze
++    USER_CONF_DIR = ".cinc".freeze
+   end
+ end
+-- 
+2.17.1
+
