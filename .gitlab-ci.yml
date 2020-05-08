@@ -42,6 +42,17 @@ patch:
 
 # Package stage
 
+package:source:
+  stage: package
+  dependencies:
+    - patch
+  script:
+    - ./build-source.sh
+  artifacts:
+    expire_in: 1mo
+    paths:
+      - data/*
+
 package:centos-6:x86_64:
   extends: .package:centos
   image: cincproject/omnibus-centos:6
@@ -449,6 +460,7 @@ deploy:
   tags:
     - docker-x86_64
   dependencies:
+    - package:source
     - package:debian-8:x86_64
     - package:debian-9:x86_64
     - package:debian-10:x86_64
