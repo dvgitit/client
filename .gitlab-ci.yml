@@ -11,9 +11,11 @@ stages:
 variables:
   ORIGIN: https://github.com/chef/chef.git
   REF: master
+  CINC_REF: stable/cinc
   CHANNEL: unstable
   CINC_PRODUCT: cinc
   OMNIBUS_FIPS_MODE: "true"
+  
 
 workflow:
   rules:
@@ -39,6 +41,73 @@ patch:
       - chef-zero/
       - inspec/
       - omnibus-software/
+
+.bio_setup:
+  before_script:
+    - scripts/install-biome.sh
+
+# Needs HAB_AUTH_TOKEN and HAB_ORIGIN environment variables set.
+package:bio:linux:
+  stage: package
+  extends:
+    - .bio_setup
+  tags:
+    - docker-x86_64
+  needs:
+    - patch
+  script:
+    - bio pkg build ./chef
+  variables:
+    HAB_ORIGIN: cinc
+    HAB_NONINTERACTIVE: "true"
+  artifacts:
+    paths:
+      - results/*.hart
+
+test:bio:linux:
+  stage: test
+  extends:
+    - .bio_setup
+  tags:
+    - docker-x86_64
+  needs:
+    - package:bio:linux
+  script:
+    - bio install results/*.hart --binlink
+    - export CINC_PATH=$(bio pkg path cinc/cinc-infra-client)
+    - ln -s $CINC_PATH /opt/cinc
+    - mkdir /opt/cinc/embedded
+    - ln -s /opt/cinc/bin /opt/cinc/embedded/bin
+    - ln -s $(bio pkg path core/ruby27)/bin/ruby /opt/cinc/embedded/bin/ruby
+    - cinc-auditor exec test/integration
+
+deploy:bio:linux:
+  stage: deploy
+  extends:
+    - .bio_setup
+  tags:
+    - docker-x86_64
+  needs:
+    - package:bio:linux
+    - test:bio:linux
+  script:
+    - bio pkg upload results/*.hart
+
+publish:bio:linux:
+  needs:
+    - package:bio:linux 
+    - deploy:bio:linux
+  extends:
+    - .bio_setup
+  stage: publish
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "web"
+      when: on_success
+    - when: never
+  script:
+    - bio pkg install core/jq-static -b
+    - export PKG=$(bio pkg info results/*.hart -j | jq '[.origin,.name,.version,.release] | join("/")')
+    - bio pkg promote $PKG $CHANNEL
 
 # Package stage
 
